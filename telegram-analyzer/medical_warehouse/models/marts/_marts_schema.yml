@@ -1,0 +1,58 @@
+version: 2
+
+models:
+  - name: dim_channels
+    description: One row per Telegram channel, with descriptive attributes and rolled-up stats.
+    columns:
+      - name: channel_key
+        description: Surrogate key for the channel (generated via row_number()).
+        tests:
+          - unique
+          - not_null
+      - name: channel_name
+        description: The channel's Telegram username.
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_dates
+    description: Calendar dimension - one row per date in the range covered by the messages.
+    columns:
+      - name: date_key
+        description: Surrogate key for the date, formatted as YYYYMMDD (e.g. 20260625).
+        tests:
+          - unique
+          - not_null
+      - name: full_date
+        description: The actual calendar date.
+        tests:
+          - unique
+          - not_null
+
+  - name: fct_messages
+    description: One row per Telegram message, with foreign keys to dim_channels and dim_dates.
+    columns:
+      - name: message_id
+        description: Telegram's internal message ID.
+        tests:
+          - not_null
+      - name: channel_key
+        description: Foreign key to dim_channels.
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_channels')
+                field: channel_key
+      - name: date_key
+        description: Foreign key to dim_dates.
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_dates')
+                field: date_key
+      - name: view_count
+        description: Number of views the message received.
+        tests:
+          - not_null

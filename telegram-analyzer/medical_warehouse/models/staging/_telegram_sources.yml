@@ -1,0 +1,20 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: raw
+    tables:
+      - name: telegram_messages
+        description: >
+          Raw Telegram messages loaded as-is from the JSON data lake.
+          Each row is one message, with the full original API response
+          preserved in the raw_data JSONB column.
+        columns:
+          - name: channel
+            description: Telegram channel username the message was scraped from.
+          - name: message_id
+            description: Telegram's internal message ID (unique within a channel).
+          - name: scraped_date
+            description: The date this message was scraped (data lake partition date).
+          - name: raw_data
+            description: Full original message object as returned by the Telegram API.
