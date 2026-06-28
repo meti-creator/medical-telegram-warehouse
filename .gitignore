@@ -1,0 +1,25 @@
+﻿# Secrets and Environment Variables
+.env
+
+# Python Virtual Environment
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Local Data and Database Dumps
+data/
+postgres_data/
+
+# dbt Artifacts and Logs
+target/
+dbt_packages/
+logs/
+
+# IDE settings
+.vscode/
+*.session
+# Secrets and Environment Variables
+
+.env
+*.session
